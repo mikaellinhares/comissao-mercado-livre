@@ -57,5 +57,5 @@ for i, row in enumerate(all_values):
         break
 
     if i % 50 == 0:
-        print('Sleep 5 segundos')
+        print('Sleep 10 segundos')
         sleep(10)
