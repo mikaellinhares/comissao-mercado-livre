@@ -1,11 +1,15 @@
 from mercado_livre_api import MercadoLivre
 import gspread
+from time import sleep
 
-ml_token = 'APP_USR-3697589497563412-030718-0b72d450a8d88db53a2363dcf295f176-682469039'
+ml_token = 'APP_USR-3697589497563412-030812-b3ebb8be45b4492e20913fc7cac57706-682469039'
 mercado_livre = MercadoLivre(token=ml_token)
 
 
-gc = gspread.oauth()
+gc = gspread.oauth(
+    credentials_filename='google-auth/credentials.json',
+    authorized_user_filename='google-auth/authorized_user.json'
+)
 sh = gc.open("CUSTOS 2")
 
 worksheet = sh.worksheet("ANÚNCIOS")
@@ -48,3 +52,10 @@ for i, row in enumerate(all_values):
                 cell_list[i_cell].value = val
 
             worksheet.update_cells(cell_list)
+    else:
+        print('Renovação do Token Mercado Livre necessária')
+        break
+
+    if i % 50 == 0:
+        print('Sleep 5 segundos')
+        sleep(10)
